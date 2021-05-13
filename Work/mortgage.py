@@ -23,5 +23,5 @@ while principal > 0:
 
 if principal < 0:
     total_paid = total_paid + principal
-print('Total paid', round(total_paid, 2))
-print('Months', month - 1)
+print(f'Total paid ${round(total_paid, 2):0.2f}')
+print(f'Months {month - 1}')
