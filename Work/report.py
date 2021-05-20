@@ -1,41 +1,22 @@
 # report.py
 #
 # Exercise 2.4
-import csv
-import fileparse
 
-def read_portfolio(filename):    
-    # portfolio = []
-    # with open(filename) as f:
-    #     rows = csv.reader(f)
-    #     headers = next(rows)
-    #     for n_row, row in enumerate(rows):        
-    #         record = dict(zip(headers, row))
-    #         try:
-    #             name = record['name']
-    #             nshares = int(record['shares'])
-    #             price = float(record['price'])
-    #             holding = {'name': name, 'shares': nshares, 'price': price}
-    #             portfolio.append(holding)
-    #         except ValueError:
-    #             print(f'Row {n_row}: Bad row: {row}')
-    return fileparse.parse_csv(filename, types=[str, int, float])
+import fileparse
+import stock
+
+def read_portfolio(filename): 
+    with open(filename) as lines:   
+        return fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
 
 def read_prices(filename):
-    # prices = {}
-    # with open(filename) as f:
-    #     rows = csv.reader(f)
-    #     for row in rows:
-    #         try:
-    #             prices[row[0]] = float(row[1])
-    #         except IndexError:
-    #             pass
-    return fileparse.parse_csv(filename, types=[str, float], has_headers=False)
+    with open(filename) as lines:
+        return fileparse.parse_csv(lines, types=[str,float], has_headers=False)
 
 def make_report(stocks, prices):
     lines = []
     for st in stocks:
-        ln = (st['name'], st['shares'], prices[st['name']], prices[st['name']] - st['price'])
+        ln = (st.name, st.shares, prices[st.name], prices[st.name] - st.price)
         lines.append(ln)
     return lines
 
@@ -55,4 +36,13 @@ def portfolio_report(portfolio_filename, prices_filename):
     print_report(report)
     return
 
-portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+def main(args):
+    if len(args) != 3:
+        raise SystemExit(f'Usage: {args[0]} ' 'portfile pricefile')    
+    else:
+        portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+    return
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
