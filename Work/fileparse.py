@@ -1,9 +1,5 @@
 # fileparse.py
-#
-# Exercise 3.3
-
 import csv
-import stock
 
 def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     '''
@@ -47,5 +43,5 @@ def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', s
         else:
             record = tuple(row)
         records.append(record)
-        portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in records]
-    return portfolio
+
+    return records
